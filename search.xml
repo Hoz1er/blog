@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title><![CDATA[SQL语句]]></title>
+    <url>%2F2017%2F09%2F19%2Fsql-1%2F</url>
+    <content type="text"><![CDATA[获取连续的日期/时间123456declare @Start datetime;declare @End datetime;select [Date] =CONVERT(char(4), DATEADD(YEAR, [number], @Start), 121) from master..spt_values where type = 'p' and [number] &lt; DATEDIFF(YEAR,@Start,@End) + 1 group by CONVERT(char(4), DATEADD(YEAR, [number], @Start), 121 注：最多2048行记录 向自增列插入指定数值1234--表t 字段： [ID]:自增主键 [Name]SET IDENTITY_INSERT [dbo].[t] ONinsert into [dbo].[t] ([Id],[Name]) values(1,'1')SET IDENTITY_INSERT [dbo].[t] OFF 注：1.请及时使用SET IDENTITY_INSERT [dbo].[t] OFF关闭自增列的自定义数值插入2.每一次连接会话中的任一时刻，只能对一个表设置IDENTITY_INSERT ON，且设置只对当前会话有效3.插入时一定要列出该标识列]]></content>
+      <tags>
+        <tag>SQL</tag>
+      </tags>
+  </entry>
+  <entry>
     <title><![CDATA[React - 使用create-react-app快速创建和部署]]></title>
-    <url>%2F2017%2F09%2F18%2F2%2F</url>
+    <url>%2F2017%2F09%2F18%2FReact-1%2F</url>
     <content type="text"><![CDATA[更多更详尽的信息请查阅create-react-app生成的模板项目目录下的README.md 创建React项目Step 1:npm install -g create-react-app全局安装create-react-app Step 2:create-react-app my-app快速生成React模板项目 Step 3:进入目录并预览项目12cd my-appnpm start Step 4:此时访问http://localhost:300即可预览项目 React部署 - Gtithub Pages Step 1:在package.json中添加homepage配置123"homepage":"https://myusername.github.io/my-app"//如果为Github Pages添加自定义域名则为"homepage":"http(s)://mydomian/" Step 2:安装gh-pages:12npm install --save gh-pagesyarn add gh-pages Step 3:在package.json的scripts中添加deploy,即下面两行 12345 "scripts": &#123;+ "predeploy": "npm run build",+ "deploy": "gh-pages -d build", "start": "react-scripts start", "build": "react-scripts build", Step 4:使用 npm run deploy部署至github1npm run deploy Step 5:确保项目的 gh-pages分支中Github Pages设置无误 Step 6:自定义域名的CNAME文件在public/目录下添加CNAME文件，部署时自动上传至gh-pages分支]]></content>
       <tags>
         <tag>React</tag>
