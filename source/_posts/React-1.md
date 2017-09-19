@@ -5,7 +5,7 @@ tags:
   - GitHub Pages
 ---
 
->更多更详尽的信息请查阅`create-react-app`生成的模板项目目录下的`README.md`
+>更多信息请查阅`create-react-app`生成的模板项目中的`README.md`
 
 ## 创建React项目  
 
