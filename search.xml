@@ -21,7 +21,7 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[Vue笔记，不定期更新]]></title>
+    <title><![CDATA[Vue笔记 【不定期更新】]]></title>
     <url>%2F2017%2F11%2F20%2Fvue%2F</url>
     <content type="text"><![CDATA[监听事件1234567891011&lt;a v-on:click="doTheThing"&gt;&lt;/a&gt;&lt;!--简写：--&gt;&lt;a @click="doTheThing"&gt;&lt;/a&gt;&lt;!--修饰符 (可只使用修饰符 e.g.,&lt;a v-on:click.stop&gt;&lt;/a&gt;) .stop [仅限原生DOM事件] 阻止传播 .prevent [仅限原生DOM事件] 不重载页面 .capture [仅限原生DOM事件] 捕获 即内部元素触发的事件先在此处处理，然后才交由内部元素自身进行处理.self [仅限原生DOM事件] 只当在 event.target 是当前元素自身时触发处理函数 即事件不是从内部元素触发的 .once 点击事件将只会触发一次--&gt;*/ 监听组件的原生事件1234&lt;!--使用.native修饰--&gt;&lt;my-component v-on:click.native="doTheThing"&gt;&lt;/my-component&gt;&lt;!--e.g.--&gt;&lt;router-link to="/" v-on:click.native="doTheThing"&gt;X&lt;/router-link&gt; 方法放在DOM更新之后执行12345678910111213141516171819202122232425262728293031new Vue(&#123; // ... methods: &#123; // ... example: function () &#123; // 修改数据 this.message = 'changed' // DOM 还没有更新 this.$nextTick(function () &#123; // DOM 现在更新了 // `this` 绑定到当前实例 this.doSomethingElse() &#125;) &#125; &#125;&#125;);//e.g.methods:&#123; //重置Canvas RefreshCanvas:function()&#123; //修改Canvas宽度高度 this.canvasWidth=NEW_WIDTH; this.canvasHeight=NEW_HEIGHT; //数据已改变 DOM尚未更新 this.$nextTick(function()&#123; //DOM已更新 this.$refs.eleImgCanvas.getContext("2d").clearRect(0, 0, this.canvasWidth,this.canvasHeight); &#125;); &#125;&#125;]]></content>
       <tags>
