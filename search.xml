@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title><![CDATA[Golang笔记，不定期更新]]></title>
+    <title><![CDATA[C# .NET 【不定期更新】]]></title>
+    <url>%2F2018%2F04%2F28%2FDotNet%2F</url>
+    <content type="text"><![CDATA[特殊情况解决方案POST请求中Request数据过大，JSON反序列化时字符串的长度超过了为maxJsonLength属性设置的值解决方案：1234567891011121314151617181920212223&lt;!--web.config--&gt;&lt;!--设置最大请求长度--&gt;&lt;httpRuntime maxRequestLength="1048576" executionTimeout="1200" targetFramework="4.5" /&gt;``` ```C#//反序列化public static T DeserializeRequest&lt;T&gt;()&#123; Stream req = System.Web.HttpContext.Current.Request.InputStream; req.Seek(0, System.IO.SeekOrigin.Begin); string json = new StreamReader(req).ReadToEnd(); return JsonConvert.DeserializeObject&lt;T&gt;(json);&#125;/***************使用示例***************/public class MyModel&#123; public string imgBase64&#123;get;set;&#125; public MyModel()&#123; &#125;&#125;public object UploadImg()&#123; MyModel myModel = DeserializeRequest&lt;MyModel&gt;(); return MyDeal(myModelMy);&#125;]]></content>
+      <tags>
+        <tag>C#</tag>
+        <tag>.NET</tag>
+        <tag>MVC</tag>
+        <tag>JSON</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title><![CDATA[Golang笔记 【不定期更新】]]></title>
     <url>%2F2017%2F12%2F09%2Fgo%2F</url>
     <content type="text"><![CDATA[在Linux服务器上部署GO项目 上传源码(test.go)至linux服务器上的%GOPATH%/src/test(新建文件夹)目录中编译1go build test 后台运行GO项目123nohup ./test &amp; &gt;test.log &amp;或直接nohup ./test &amp;]]></content>
       <tags>
@@ -18,7 +29,7 @@
       </tags>
   </entry>
   <entry>
-    <title><![CDATA[SQL语句]]></title>
+    <title><![CDATA[SQL语句 【不定期更新】]]></title>
     <url>%2F2017%2F09%2F19%2Fsql-1%2F</url>
     <content type="text"><![CDATA[SQL语句获取连续的日期/时间123456declare @Start datetime;declare @End datetime;select [Date] =CONVERT(char(4), DATEADD(YEAR, [number], @Start), 121)from master..spt_valueswhere type = 'p' and [number] &lt; DATEDIFF(YEAR,@Start,@End) + 1group by CONVERT(char(4), DATEADD(YEAR, [number], @Start), 121 注：最多2048行记录 向自增列插入指定数值1234--表t 字段： [ID]:自增主键 [Name]SET IDENTITY_INSERT [dbo].[t] ONinsert into [dbo].[t] ([Id],[Name]) values(1,'1')SET IDENTITY_INSERT [dbo].[t] OFF 注：1.请及时使用SET IDENTITY_INSERT [dbo].[t] OFF关闭自增列的自定义数值插入2.每一次连接会话中的任一时刻，只能对一个表设置IDENTITY_INSERT ON，且设置只对当前会话有效3.插入时一定要列出该标识列 生成数据字典1234567891011121314151617181920212223242526use your-database --指明数据库 goSELECT 表名=case when a.colorder=1 then d.name else '' end, 表说明=case when a.colorder=1 then isnull(f.value,'') else '' end, 字段序号=a.colorder, 字段名=a.name, 标识=case when COLUMNPROPERTY(a.id,a.name,'IsIdentity')=1 then '√'else '' end, 主键=case when exists(SELECT 1 FROM sysobjects where xtype='PK' and name in (SELECT name FROM sysindexes WHERE indid in(SELECT indid FROM sysindexkeys WHERE id = a.id AND colid=a.colid ))) then '√' else '' end, 类型=b.name, 长度=COLUMNPROPERTY(a.id,a.name,'PRECISION'), 占用字节数=a.length, 小数位数=isnull(COLUMNPROPERTY(a.id,a.name,'Scale'),0), 允许空=case when a.isnullable=1 then '√'else '' end, 默认值=isnull(e.text,''), 字段说明=isnull(g.[value],'') FROM syscolumns a left join systypes b on a.xtype=b.xusertype inner join sysobjects d on a.id=d.id and d.xtype='U' and d.name&lt;&gt;'dtproperties' left join syscomments e on a.cdefault=e.id left join sys.extended_properties g on a.id=g.major_id and a.colid=g.minor_id left join sys.extended_properties f on d.id=f.major_id and f.minor_id =0 --where d.name='要查询的表' --仅生成指定表的数据字典 order by d.name,a.id,a.colorder]]></content>
       <tags>

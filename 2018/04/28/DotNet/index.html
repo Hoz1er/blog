@@ -75,7 +75,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Vue," />
+  <meta name="keywords" content="C#,.NET,MVC,JSON," />
 
 
 
@@ -91,17 +91,17 @@
 
 
 
-<meta name="description" content="监听事件1234567891011&amp;lt;a v-on:click=&quot;doTheThing&quot;&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;!--简写：--&amp;gt;&amp;lt;a @click=&quot;doTheThing&quot;&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;!--修饰符 (可只使用修饰符 e.g.,&amp;lt;a v-on:click.stop&amp;gt;&amp;lt;/a&amp;gt;) .stop [仅限原生DOM事件] 阻止传播">
-<meta name="keywords" content="Vue">
+<meta name="description" content="特殊情况解决方案POST请求中Request数据过大，JSON反序列化时字符串的长度超过了为maxJsonLength属性设置的值解决方案：1234567891011121314151617181920212223&amp;lt;!--web.config--&amp;gt;&amp;lt;!--设置最大请求长度--&amp;gt;&amp;lt;httpRuntime maxRequestLength=&quot;1048576&quot; execut">
+<meta name="keywords" content="C#,.NET,MVC,JSON">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Vue笔记，不定期更新">
-<meta property="og:url" content="http://obsess10n.tech/2017/11/20/vue/index.html">
+<meta property="og:title" content="C# .NET 【不定期更新】">
+<meta property="og:url" content="http://obsess10n.tech/2018/04/28/DotNet/index.html">
 <meta property="og:site_name" content="Gx Hou&#39;s Blog">
-<meta property="og:description" content="监听事件1234567891011&amp;lt;a v-on:click=&quot;doTheThing&quot;&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;!--简写：--&amp;gt;&amp;lt;a @click=&quot;doTheThing&quot;&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;!--修饰符 (可只使用修饰符 e.g.,&amp;lt;a v-on:click.stop&amp;gt;&amp;lt;/a&amp;gt;) .stop [仅限原生DOM事件] 阻止传播">
-<meta property="og:updated_time" content="2017-11-20T15:28:57.697Z">
+<meta property="og:description" content="特殊情况解决方案POST请求中Request数据过大，JSON反序列化时字符串的长度超过了为maxJsonLength属性设置的值解决方案：1234567891011121314151617181920212223&amp;lt;!--web.config--&amp;gt;&amp;lt;!--设置最大请求长度--&amp;gt;&amp;lt;httpRuntime maxRequestLength=&quot;1048576&quot; execut">
+<meta property="og:updated_time" content="2018-04-28T11:36:37.724Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Vue笔记，不定期更新">
-<meta name="twitter:description" content="监听事件1234567891011&amp;lt;a v-on:click=&quot;doTheThing&quot;&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;!--简写：--&amp;gt;&amp;lt;a @click=&quot;doTheThing&quot;&amp;gt;&amp;lt;/a&amp;gt;&amp;lt;!--修饰符 (可只使用修饰符 e.g.,&amp;lt;a v-on:click.stop&amp;gt;&amp;lt;/a&amp;gt;) .stop [仅限原生DOM事件] 阻止传播">
+<meta name="twitter:title" content="C# .NET 【不定期更新】">
+<meta name="twitter:description" content="特殊情况解决方案POST请求中Request数据过大，JSON反序列化时字符串的长度超过了为maxJsonLength属性设置的值解决方案：1234567891011121314151617181920212223&amp;lt;!--web.config--&amp;gt;&amp;lt;!--设置最大请求长度--&amp;gt;&amp;lt;httpRuntime maxRequestLength=&quot;1048576&quot; execut">
 
 
 
@@ -129,13 +129,13 @@
 
 
 
-  <link rel="canonical" href="http://obsess10n.tech/2017/11/20/vue/"/>
+  <link rel="canonical" href="http://obsess10n.tech/2018/04/28/DotNet/"/>
 
 
 
 
 
-  <title>Vue笔记，不定期更新 | Gx Hou's Blog</title>
+  <title>C# .NET 【不定期更新】 | Gx Hou's Blog</title>
   
 
 
@@ -288,7 +288,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://obsess10n.tech/2017/11/20/vue/">
+    <link itemprop="mainEntityOfPage" href="http://obsess10n.tech/2018/04/28/DotNet/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Gx Hou">
@@ -305,7 +305,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Vue笔记，不定期更新</h1>
+          <h1 class="post-title" itemprop="name headline">C# .NET 【不定期更新】</h1>
         
 
         <div class="post-meta">
@@ -317,8 +317,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-20T23:00:00+08:00">
-                2017-11-20
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-28T19:12:51+08:00">
+                2018-04-28
               </time>
             
 
@@ -352,11 +352,8 @@
       
 
       
-        <h2 id="监听事件"><a href="#监听事件" class="headerlink" title="监听事件"></a><a href="https://cn.vuejs.org/v2/guide/events.html#监听事件" target="_blank" rel="external">监听事件</a></h2><pre><code><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">v-on:click</span>=<span class="string">"doTheThing"</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line"><span class="comment">&lt;!--简写：--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">a</span> @<span class="attr">click</span>=<span class="string">"doTheThing"</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line"><span class="comment">&lt;!--修饰符 (可只使用修饰符 e.g.,&lt;a v-on:click.stop&gt;&lt;/a&gt;) </span></div><div class="line">.stop [仅限原生DOM事件] 阻止传播 </div><div class="line">.prevent [仅限原生DOM事件] 不重载页面  </div><div class="line">.capture [仅限原生DOM事件] 捕获  即内部元素触发的事件先在此处处理，然后才交由内部元素自身进行处理</div><div class="line">.self [仅限原生DOM事件] 只当在 event.target 是当前元素自身时触发处理函数  即事件不是从内部元素触发的  </div><div class="line">.once 点击事件将只会触发一次--&gt;</div><div class="line"></div><div class="line">*/</div></pre></td></tr></table></figure>
-</code></pre><h3 id="监听组件的原生事件"><a href="#监听组件的原生事件" class="headerlink" title="监听组件的原生事件"></a><a href="https://cn.vuejs.org/v2/guide/components.html#给组件绑定原生事件" target="_blank" rel="external">监听组件的原生事件</a></h3><pre><code><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--使用.native修饰--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">my-component</span> <span class="attr">v-on:click.native</span>=<span class="string">"doTheThing"</span>&gt;</span><span class="tag">&lt;/<span class="name">my-component</span>&gt;</span></div><div class="line"><span class="comment">&lt;!--e.g.--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">router-link</span> <span class="attr">to</span>=<span class="string">"/"</span> <span class="attr">v-on:click.native</span>=<span class="string">"doTheThing"</span>&gt;</span>X<span class="tag">&lt;/<span class="name">router-link</span>&gt;</span></div></pre></td></tr></table></figure>
-</code></pre><a id="more"></a>
-<h2 id="方法放在DOM更新之后执行"><a href="#方法放在DOM更新之后执行" class="headerlink" title="方法放在DOM更新之后执行"></a><a href="https://cn.vuejs.org/v2/api/#vm-nextTick" target="_blank" rel="external">方法放在DOM更新之后执行</a></h2><pre><code><figure class="highlight js"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">new</span> Vue(&#123;</div><div class="line">    <span class="comment">// ...</span></div><div class="line">    methods: &#123;</div><div class="line">        <span class="comment">// ...</span></div><div class="line">        example: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">            <span class="comment">// 修改数据</span></div><div class="line">            <span class="keyword">this</span>.message = <span class="string">'changed'</span></div><div class="line">            <span class="comment">// DOM 还没有更新</span></div><div class="line">            <span class="keyword">this</span>.$nextTick(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</div><div class="line">                <span class="comment">// DOM 现在更新了</span></div><div class="line">                <span class="comment">// `this` 绑定到当前实例</span></div><div class="line">                <span class="keyword">this</span>.doSomethingElse()</div><div class="line">            &#125;)</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"><span class="comment">//e.g.</span></div><div class="line">methods:&#123;</div><div class="line">    <span class="comment">//重置Canvas</span></div><div class="line">    RefreshCanvas:<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">        <span class="comment">//修改Canvas宽度高度</span></div><div class="line">        <span class="keyword">this</span>.canvasWidth=NEW_WIDTH;</div><div class="line">        <span class="keyword">this</span>.canvasHeight=NEW_HEIGHT;</div><div class="line">        <span class="comment">//数据已改变 DOM尚未更新</span></div><div class="line"></div><div class="line">        <span class="keyword">this</span>.$nextTick(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">            <span class="comment">//DOM已更新</span></div><div class="line">            <span class="keyword">this</span>.$refs.eleImgCanvas.getContext(<span class="string">"2d"</span>).clearRect(<span class="number">0</span>, <span class="number">0</span>, <span class="keyword">this</span>.canvasWidth,<span class="keyword">this</span>.canvasHeight);</div><div class="line">        &#125;);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</code></pre>
+        <h1 id="特殊情况解决方案"><a href="#特殊情况解决方案" class="headerlink" title="特殊情况解决方案"></a>特殊情况解决方案</h1><h2 id="POST请求中Request数据过大，JSON反序列化时字符串的长度超过了为maxJsonLength属性设置的值"><a href="#POST请求中Request数据过大，JSON反序列化时字符串的长度超过了为maxJsonLength属性设置的值" class="headerlink" title="POST请求中Request数据过大，JSON反序列化时字符串的长度超过了为maxJsonLength属性设置的值"></a>POST请求中Request数据过大，JSON反序列化时字符串的长度超过了为maxJsonLength属性设置的值</h2><h3 id="解决方案："><a href="#解决方案：" class="headerlink" title="解决方案："></a>解决方案：</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="comment">&lt;!--web.config--&gt;</span></div><div class="line"><span class="comment">&lt;!--设置最大请求长度--&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">httpRuntime</span> <span class="attr">maxRequestLength</span>=<span class="string">"1048576"</span> <span class="attr">executionTimeout</span>=<span class="string">"1200"</span> <span class="attr">targetFramework</span>=<span class="string">"4.5"</span> /&gt;</span></div><div class="line">```  </div><div class="line">```C#</div><div class="line">//反序列化</div><div class="line">public static T DeserializeRequest<span class="tag">&lt;<span class="name">T</span>&gt;</span>()</div><div class="line">&#123;</div><div class="line">    Stream req = System.Web.HttpContext.Current.Request.InputStream;</div><div class="line">    req.Seek(0, System.IO.SeekOrigin.Begin);</div><div class="line">    string json = new StreamReader(req).ReadToEnd();</div><div class="line">    return JsonConvert.DeserializeObject<span class="tag">&lt;<span class="name">T</span>&gt;</span>(json);</div><div class="line">&#125;</div><div class="line"></div><div class="line">/***************使用示例***************/</div><div class="line">public class MyModel&#123;</div><div class="line">    public string imgBase64&#123;get;set;&#125;</div><div class="line">    public MyModel()&#123; &#125;</div><div class="line">&#125;</div><div class="line">public object UploadImg()&#123;</div><div class="line">    MyModel myModel = DeserializeRequest<span class="tag">&lt;<span class="name">MyModel</span>&gt;</span>();</div><div class="line">    return MyDeal(myModelMy);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<a id="more"></a>
       
     </div>
 
@@ -384,7 +381,7 @@
     </li>
     <li class="post-copyright-link">
       <strong>本文链接：</strong>
-      <a href="http://obsess10n.tech/2017/11/20/vue/" title="Vue笔记，不定期更新">http://obsess10n.tech/2017/11/20/vue/</a>
+      <a href="http://obsess10n.tech/2018/04/28/DotNet/" title="C# .NET 【不定期更新】">http://obsess10n.tech/2018/04/28/DotNet/</a>
     </li>
     <li class="post-copyright-license">
       <strong>版权声明： </strong>
@@ -400,7 +397,13 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Vue/" rel="tag"># Vue</a>
+            <a href="/tags/C/" rel="tag"># C#</a>
+          
+            <a href="/tags/NET/" rel="tag"># .NET</a>
+          
+            <a href="/tags/MVC/" rel="tag"># MVC</a>
+          
+            <a href="/tags/JSON/" rel="tag"># JSON</a>
           
         </div>
       
@@ -413,8 +416,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/09/19/sql-1/" rel="next" title="SQL语句 【不定期更新】">
-                <i class="fa fa-chevron-left"></i> SQL语句 【不定期更新】
+              <a href="/2017/12/09/go/" rel="next" title="Golang笔记 【不定期更新】">
+                <i class="fa fa-chevron-left"></i> Golang笔记 【不定期更新】
               </a>
             
           </div>
@@ -422,10 +425,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/12/09/go/" rel="prev" title="Golang笔记 【不定期更新】">
-                Golang笔记 【不定期更新】 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -594,7 +593,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#监听事件"><span class="nav-number">1.</span> <span class="nav-text">监听事件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#监听组件的原生事件"><span class="nav-number">1.1.</span> <span class="nav-text">监听组件的原生事件</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#方法放在DOM更新之后执行"><span class="nav-number">2.</span> <span class="nav-text">方法放在DOM更新之后执行</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#特殊情况解决方案"><span class="nav-number">1.</span> <span class="nav-text">特殊情况解决方案</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#POST请求中Request数据过大，JSON反序列化时字符串的长度超过了为maxJsonLength属性设置的值"><span class="nav-number">1.1.</span> <span class="nav-text">POST请求中Request数据过大，JSON反序列化时字符串的长度超过了为maxJsonLength属性设置的值</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#解决方案："><span class="nav-number">1.1.1.</span> <span class="nav-text">解决方案：</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
