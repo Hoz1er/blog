@@ -16,7 +16,7 @@ tags:
     .self [仅限原生DOM事件] 只当在 event.target 是当前元素自身时触发处理函数  即事件不是从内部元素触发的  
     .once 点击事件将只会触发一次-->
 
-    */
+    
     ```
 ### [监听组件的原生事件](https://cn.vuejs.org/v2/guide/components.html#给组件绑定原生事件)
     ```html
