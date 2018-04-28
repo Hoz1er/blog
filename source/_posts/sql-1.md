@@ -1,5 +1,5 @@
 ---
-title: SQL语句
+title: SQL语句 【不定期更新】
 tags:
 - SQL
 ---

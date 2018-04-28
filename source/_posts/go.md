@@ -1,5 +1,5 @@
 ---
-title: Golang笔记，不定期更新
+title: Golang笔记 【不定期更新】
 tags:
   - Go 
   - Linux
