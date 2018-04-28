@@ -32,9 +32,11 @@ public class MyModel{
     public string imgBase64{get;set;}
     public MyModel(){ }
 }
-public object UploadImg(){
+public void UploadImg(){
     MyModel myModel = DeserializeRequest<MyModel>();
-    return MyDeal(myModelMy);
+    /*
+     * MyDeal(myModel);
+     */
 }
 
 
