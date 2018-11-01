@@ -13,7 +13,7 @@ declare @End datetime;
 select  [Date] =CONVERT(char(4), DATEADD(YEAR, [number], @Start), 121)
 from    master..spt_values
 where   type = 'p' and [number] < DATEDIFF(YEAR,@Start,@End) + 1
-group by CONVERT(char(4), DATEADD(YEAR, [number], @Start), 121
+group by CONVERT(char(4), DATEADD(YEAR, [number], @Start), 121)
 ```
 
 >注：最多2048行记录
