@@ -16,6 +16,14 @@ where   type = 'p' and [number] < DATEDIFF(YEAR,@Start,@End) + 1
 group by CONVERT(char(4), DATEADD(YEAR, [number], @Start), 121)
 ```
 
+```sql
+--获取连续的整数值
+select top 10 [number]
+from master..spt_values
+where type='p'
+order by [number] asc
+```
+
 >注：最多2048行记录
 
 ## 向自增列插入指定数值
