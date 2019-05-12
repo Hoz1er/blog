@@ -1,10 +1,10 @@
 ---
-title: C# .NET 【不定期更新】
+title: .NET笔记
 tags:
-- C#
-- .NET
-- MVC
-- JSON
+    - .NET
+    - MVC
+    - JSON
+    - 随笔
 ---
 # 特殊情况解决方案
 

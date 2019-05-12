@@ -1,8 +1,9 @@
 ---
-title: Golang笔记 【不定期更新】
+title: Golang笔记
 tags:
   - Go 
   - Linux
+  - 随笔
 ---
 
 >## 在Linux服务器上部署GO项目

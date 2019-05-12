@@ -1,7 +1,8 @@
 ---
-title: SQL语句 【不定期更新】
+title: SQL语句笔记
 tags:
-- SQL
+    - SQL
+    - 随笔
 ---
 # SQL语句
 

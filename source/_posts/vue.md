@@ -1,7 +1,8 @@
 ---
-title: Vue笔记 【不定期更新】
+title: Vue笔记
 tags:
-  - Vue
+    - Vue
+    - 随笔
 ---
 
 ## [监听事件](https://cn.vuejs.org/v2/guide/events.html#监听事件)
