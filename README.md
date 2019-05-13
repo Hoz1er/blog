@@ -11,10 +11,10 @@ My Blog
 部署分支，借助 hexo-deployer-git 更新
 
 ## [Hexo](https://hexo.io/zh-cn/)  
-&nbsp;&nbsp;&nbsp;&nbsp;本Blog由 Hexo "强力驱动"  
+&nbsp;&nbsp;&nbsp;&nbsp;由 Hexo "强力驱动"  
 
 ## [NexT](http://theme-next.iissnan.com/)  
-&nbsp;&nbsp;&nbsp;&nbsp;本Blog主题使用NexT.Pisces双栏主题，简单粗暴 美观大方  
+&nbsp;&nbsp;&nbsp;&nbsp;使用NexT.Pisces双栏主题，简单 粗暴 美观  
 
 
 
