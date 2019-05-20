@@ -62,3 +62,17 @@ tags:
     }
     
     ```
+
+## 使用深度选择器来修改第三方组件的样式  
+```css
+.my-class >>> .third-party-class{
+    margin:10px;
+}
+.my-class /deep/ .third-party-class{
+    margin:10px;
+}
+/*编译后：*/
+.my-class[data-v-54c1ae8e] .third-party-class{
+    margin:10px;
+}
+```
