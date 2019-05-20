@@ -47,11 +47,11 @@ tags:
     });
     //e.g.
     methods:{
-        //重置Canvas
-        RefreshCanvas:function(){
+        //修改Canvas的宽高
+        RefreshCanvas:function(_width,_height){
             //修改Canvas宽度高度
-            this.canvasWidth=NEW_WIDTH;
-            this.canvasHeight=NEW_HEIGHT;
+            this.canvasWidth=_width;
+            this.canvasHeight=_height;
             //数据已改变 DOM尚未更新
 
             this.$nextTick(function(){
