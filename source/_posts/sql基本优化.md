@@ -19,6 +19,7 @@ tags:
     union
     select id from t where col2='123'
     ```
+<!--MORE-->
 * in / not in ：  
     * 对连续的数值可使用 between 代替
     * 用 exists 代替
