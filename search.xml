@@ -2,7 +2,7 @@
 <search>
   <entry>
     <title>sql基本优化</title>
-    <url>/blog/2019/07/06/sql%E5%9F%BA%E6%9C%AC%E4%BC%98%E5%8C%96/</url>
+    <url>/2019/07/06/sql%E5%9F%BA%E6%9C%AC%E4%BC%98%E5%8C%96/</url>
     <content><![CDATA[<h4 id="对查询进行优化，要尽量避免全表扫描，首先应考虑在-where-及-order-by-涉及的列上建立索引"><a href="#对查询进行优化，要尽量避免全表扫描，首先应考虑在-where-及-order-by-涉及的列上建立索引" class="headerlink" title="对查询进行优化，要尽量避免全表扫描，首先应考虑在 where 及 order by 涉及的列上建立索引"></a>对查询进行优化，要尽量避免全表扫描，首先应考虑在 where 及 order by 涉及的列上建立索引</h4><h4 id="可能会导致引擎不使用索引而进行全表扫描的操作及部分优化思路"><a href="#可能会导致引擎不使用索引而进行全表扫描的操作及部分优化思路" class="headerlink" title="可能会导致引擎不使用索引而进行全表扫描的操作及部分优化思路"></a>可能会导致引擎不使用索引而进行全表扫描的操作及部分优化思路</h4><ul>
 <li>is null 判断:<br>  尽可能使用NOT NULL 填充数据库  </li>
 <li>!= 或 &lt;&gt;  </li>
@@ -51,7 +51,7 @@
   </entry>
   <entry>
     <title>SQL语句笔记</title>
-    <url>/blog/2019/07/06/sql/</url>
+    <url>/2019/07/06/sql/</url>
     <content><![CDATA[<h1 id="SQL语句"><a href="#SQL语句" class="headerlink" title="SQL语句"></a>SQL语句</h1><h2 id="获取连续的日期-时间"><a href="#获取连续的日期-时间" class="headerlink" title="获取连续的日期/时间"></a>获取连续的日期/时间</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">declare</span> @<span class="keyword">Start</span> datetime;</span><br><span class="line"><span class="keyword">declare</span> @<span class="keyword">End</span> datetime;</span><br><span class="line"><span class="keyword">select</span>  [<span class="built_in">Date</span>] =<span class="keyword">CONVERT</span>(<span class="built_in">char</span>(<span class="number">4</span>), <span class="keyword">DATEADD</span>(<span class="keyword">YEAR</span>, [<span class="built_in">number</span>], @<span class="keyword">Start</span>), <span class="number">121</span>)</span><br><span class="line"><span class="keyword">from</span>    master..spt_values</span><br><span class="line"><span class="keyword">where</span>   <span class="keyword">type</span> = <span class="string">'p'</span> <span class="keyword">and</span> [<span class="built_in">number</span>] &lt; <span class="keyword">DATEDIFF</span>(<span class="keyword">YEAR</span>,@<span class="keyword">Start</span>,@<span class="keyword">End</span>) + <span class="number">1</span></span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> <span class="keyword">CONVERT</span>(<span class="built_in">char</span>(<span class="number">4</span>), <span class="keyword">DATEADD</span>(<span class="keyword">YEAR</span>, [<span class="built_in">number</span>], @<span class="keyword">Start</span>), <span class="number">121</span>)</span><br></pre></td></tr></table></figure>
 <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">--获取连续的整数值</span></span><br><span class="line"><span class="keyword">select</span> top <span class="number">10</span> [<span class="built_in">number</span>]</span><br><span class="line"><span class="keyword">from</span> master..spt_values</span><br><span class="line"><span class="keyword">where</span> <span class="keyword">type</span>=<span class="string">'p'</span></span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> [<span class="built_in">number</span>] <span class="keyword">asc</span></span><br></pre></td></tr></table></figure>
 <blockquote>
@@ -70,7 +70,7 @@
   </entry>
   <entry>
     <title>nginx配置</title>
-    <url>/blog/2019/07/06/nginx%E9%85%8D%E7%BD%AE/</url>
+    <url>/2019/07/06/nginx%E9%85%8D%E7%BD%AE/</url>
     <content><![CDATA[<h2 id="设置请求Body的大小"><a href="#设置请求Body的大小" class="headerlink" title="设置请求Body的大小"></a>设置请求Body的大小</h2><h5 id="nginx-默认Body大小为-1M"><a href="#nginx-默认Body大小为-1M" class="headerlink" title="nginx 默认Body大小为 1M"></a>nginx 默认Body大小为 1M</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">client_max_body_size 20M;</span><br></pre></td></tr></table></figure>
 <p>可以选择在http{ }/server{ }/location{ }中设置<br>三者到区别是：http{} 中控制着所有nginx收到的请求。而报文大小限制设置在server｛｝中，则控制该server收到的请求报文大小，同理，如果配置在location中，则报文大小限制，只对匹配了location 路由规则的请求生效。</p>
 <blockquote>
@@ -85,7 +85,7 @@
   </entry>
   <entry>
     <title>.NET Core API笔记</title>
-    <url>/blog/2019/07/06/DotNET%20Core%20API/</url>
+    <url>/2019/07/06/DotNET%20Core%20API/</url>
     <content><![CDATA[<h3 id="自定义路由"><a href="#自定义路由" class="headerlink" title="自定义路由"></a>自定义路由</h3><pre><code>Startup.cs:
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public void Configure(IApplicationBuilder app, IHostingEnvironment env)</span><br><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    app.UseMvc(routes =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        routes.MapRoute(&quot;default&quot;, &quot;&#123;controller=Home&#125;/&#123;action=Index&#125;/&#123;id?&#125;&quot;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </code></pre>]]></content>
@@ -98,7 +98,7 @@
   </entry>
   <entry>
     <title>.NET笔记</title>
-    <url>/blog/2018/04/28/DotNet/</url>
+    <url>/2018/04/28/DotNet/</url>
     <content><![CDATA[<h1 id="特殊情况解决方案"><a href="#特殊情况解决方案" class="headerlink" title="特殊情况解决方案"></a>特殊情况解决方案</h1><h2 id="POST请求中Request数据过大，JSON反序列化时字符串的长度超过了为maxJsonLength属性设置的值"><a href="#POST请求中Request数据过大，JSON反序列化时字符串的长度超过了为maxJsonLength属性设置的值" class="headerlink" title="POST请求中Request数据过大，JSON反序列化时字符串的长度超过了为maxJsonLength属性设置的值"></a>POST请求中Request数据过大，JSON反序列化时字符串的长度超过了为maxJsonLength属性设置的值</h2><h3 id="解决方案："><a href="#解决方案：" class="headerlink" title="解决方案："></a>解决方案：</h3><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--web.config--&gt;</span></span><br><span class="line"><span class="comment">&lt;!--设置最大请求长度--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">httpRuntime</span> <span class="attr">maxRequestLength</span>=<span class="string">"1048576"</span> <span class="attr">executionTimeout</span>=<span class="string">"1200"</span> <span class="attr">targetFramework</span>=<span class="string">"4.5"</span> /&gt;</span></span><br><span class="line">```  </span><br><span class="line">```C#</span><br><span class="line">//反序列化</span><br><span class="line">public static T DeserializeRequest<span class="tag">&lt;<span class="name">T</span>&gt;</span>()</span><br><span class="line">&#123;</span><br><span class="line">    Stream req = System.Web.HttpContext.Current.Request.InputStream;</span><br><span class="line">    req.Seek(0, System.IO.SeekOrigin.Begin);</span><br><span class="line">    string json = new StreamReader(req).ReadToEnd();</span><br><span class="line">    return JsonConvert.DeserializeObject<span class="tag">&lt;<span class="name">T</span>&gt;</span>(json);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/***************使用示例***************/</span><br><span class="line">public class MyModel&#123;</span><br><span class="line">    public string imgBase64&#123;get;set;&#125;</span><br><span class="line">    public MyModel()&#123; &#125;</span><br><span class="line">&#125;</span><br><span class="line">public void UploadImg()&#123;</span><br><span class="line">    MyModel myModel = DeserializeRequest<span class="tag">&lt;<span class="name">MyModel</span>&gt;</span>();</span><br><span class="line">    /*</span><br><span class="line">     * MyDeal(myModel);</span><br><span class="line">     */</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <a id="more"></a>]]></content>
       <tags>
@@ -110,7 +110,7 @@
   </entry>
   <entry>
     <title>Golang笔记</title>
-    <url>/blog/2017/12/09/go/</url>
+    <url>/2017/12/09/go/</url>
     <content><![CDATA[<blockquote>
 <h2 id="在Linux服务器上部署GO项目"><a href="#在Linux服务器上部署GO项目" class="headerlink" title="在Linux服务器上部署GO项目"></a>在Linux服务器上部署GO项目</h2></blockquote>
 <h3 id="上传源码-test-go-至linux服务器上的-GOPATH-src-test-新建文件夹-目录中"><a href="#上传源码-test-go-至linux服务器上的-GOPATH-src-test-新建文件夹-目录中" class="headerlink" title="上传源码(test.go)至linux服务器上的%GOPATH%/src/test(新建文件夹)目录中"></a>上传源码(test.go)至linux服务器上的%GOPATH%/src/test(新建文件夹)目录中</h3><h3 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go build <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
@@ -124,7 +124,7 @@
   </entry>
   <entry>
     <title>Vue笔记</title>
-    <url>/blog/2017/11/20/vue/</url>
+    <url>/2017/11/20/vue/</url>
     <content><![CDATA[<h2 id="监听事件"><a href="#监听事件" class="headerlink" title="监听事件"></a><a href="https://cn.vuejs.org/v2/guide/events.html#监听事件" target="_blank" rel="noopener">监听事件</a></h2><pre><code><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">v-on:click</span>=<span class="string">"doTheThing"</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--简写：--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> @<span class="attr">click</span>=<span class="string">"doTheThing"</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--修饰符 (可只使用修饰符 e.g.,&lt;a v-on:click.stop&gt;&lt;/a&gt;) </span></span><br><span class="line"><span class="comment">.stop [仅限原生DOM事件] 阻止传播 </span></span><br><span class="line"><span class="comment">.prevent [仅限原生DOM事件] 不重载页面  </span></span><br><span class="line"><span class="comment">.capture [仅限原生DOM事件] 捕获  即内部元素触发的事件先在此处处理，然后才交由内部元素自身进行处理</span></span><br><span class="line"><span class="comment">.self [仅限原生DOM事件] 只当在 event.target 是当前元素自身时触发处理函数  即事件不是从内部元素触发的  </span></span><br><span class="line"><span class="comment">.once 点击事件将只会触发一次--&gt;</span></span><br></pre></td></tr></table></figure>
 </code></pre><h3 id="监听组件的原生事件"><a href="#监听组件的原生事件" class="headerlink" title="监听组件的原生事件"></a><a href="https://cn.vuejs.org/v2/guide/components.html#给组件绑定原生事件" target="_blank" rel="noopener">监听组件的原生事件</a></h3><pre><code><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--使用.native修饰--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">my-component</span> <span class="attr">v-on:click.native</span>=<span class="string">"doTheThing"</span>&gt;</span><span class="tag">&lt;/<span class="name">my-component</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--e.g.--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">router-link</span> <span class="attr">to</span>=<span class="string">"/"</span> <span class="attr">v-on:click.native</span>=<span class="string">"doTheThing"</span>&gt;</span>X<span class="tag">&lt;/<span class="name">router-link</span>&gt;</span></span><br></pre></td></tr></table></figure>
 </code></pre><a id="more"></a>
@@ -137,7 +137,7 @@
   </entry>
   <entry>
     <title>React - 使用create-react-app快速创建和部署</title>
-    <url>/blog/2017/09/18/React-1/</url>
+    <url>/2017/09/18/React-1/</url>
     <content><![CDATA[<blockquote>
 <p>更多信息请查阅<code>create-react-app</code>生成的模板项目中的<code>README.md</code></p>
 </blockquote>
