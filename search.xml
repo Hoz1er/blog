@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>sql基本优化</title>
+    <url>/blog/2019/07/06/sql%E5%9F%BA%E6%9C%AC%E4%BC%98%E5%8C%96/</url>
+    <content><![CDATA[<h4 id="对查询进行优化，要尽量避免全表扫描，首先应考虑在-where-及-order-by-涉及的列上建立索引"><a href="#对查询进行优化，要尽量避免全表扫描，首先应考虑在-where-及-order-by-涉及的列上建立索引" class="headerlink" title="对查询进行优化，要尽量避免全表扫描，首先应考虑在 where 及 order by 涉及的列上建立索引"></a>对查询进行优化，要尽量避免全表扫描，首先应考虑在 where 及 order by 涉及的列上建立索引</h4><h4 id="可能会导致引擎不使用索引而进行全表扫描的操作及部分优化思路"><a href="#可能会导致引擎不使用索引而进行全表扫描的操作及部分优化思路" class="headerlink" title="可能会导致引擎不使用索引而进行全表扫描的操作及部分优化思路"></a>可能会导致引擎不使用索引而进行全表扫描的操作及部分优化思路</h4><ul>
+<li>is null 判断:<br>  尽可能使用NOT NULL 填充数据库  </li>
+<li>!= 或 &lt;&gt;  </li>
+<li>where子句中使用 ‘or’ 来连接条件时，某子条件中存在无索引的字段：  <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">id</span> <span class="keyword">from</span> t <span class="keyword">where</span> col1=<span class="number">1</span> <span class="keyword">or</span> col2=<span class="string">'123'</span></span><br><span class="line"><span class="comment">--可修改为：</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">id</span> <span class="keyword">from</span> t <span class="keyword">where</span> col1=<span class="number">1</span></span><br><span class="line"><span class="keyword">union</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">id</span> <span class="keyword">from</span> t <span class="keyword">where</span> col2=<span class="string">'123'</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<a id="more"></a>
+<ul>
+<li><p>in / not in ：  </p>
+<ul>
+<li>对连续的数值可使用 between 代替</li>
+<li>用 exists 代替  <figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">select</span> <span class="keyword">id</span> <span class="keyword">from</span> t1 </span><br><span class="line"><span class="keyword">where</span> col1 <span class="keyword">in</span> (<span class="keyword">select</span> col1 <span class="keyword">from</span> t2)</span><br><span class="line"><span class="comment">--可修改为：</span></span><br><span class="line"><span class="keyword">select</span> <span class="keyword">id</span> <span class="keyword">from</span> t1</span><br><span class="line"><span class="keyword">where</span> <span class="keyword">exists</span>(<span class="keyword">select</span> <span class="number">1</span> <span class="keyword">from</span> t2 <span class="keyword">where</span> t1.col1 = t2.col1)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>通配符’%’：  </p>
+<ul>
+<li>‘%123’ 无法使用正常索引,可使用反向索引</li>
+<li>‘123%’ 可使用正常索引</li>
+<li>‘%123%’ 无法使用索引:<br>  可以考虑使用全文检索</li>
+</ul>
+</li>
+<li>where 子句中对字段进行表达式操作</li>
+<li>where 子句中在’=’左边进行函数、算术运算或其他表达式运算</li>
+<li>设置了复合索引，但where子句中未使用到该索引的第一个字段作为条件：<br>  需要使用复合索引的第一个字段，且尽量保持字段顺序与复合索引中的字段顺序一致  </li>
+</ul>
+<h4 id="Update语句尽量只Update需要的字段，否则频繁调用会引起明显的性能消耗，同时带来大量日志"><a href="#Update语句尽量只Update需要的字段，否则频繁调用会引起明显的性能消耗，同时带来大量日志" class="headerlink" title="Update语句尽量只Update需要的字段，否则频繁调用会引起明显的性能消耗，同时带来大量日志"></a>Update语句尽量只Update需要的字段，否则频繁调用会引起明显的性能消耗，同时带来大量日志</h4><h4 id="多表进行JOIN时尽量先进行处理（筛选、分页等），缩小数据量，否则会很大程度地影响性能"><a href="#多表进行JOIN时尽量先进行处理（筛选、分页等），缩小数据量，否则会很大程度地影响性能" class="headerlink" title="多表进行JOIN时尽量先进行处理（筛选、分页等），缩小数据量，否则会很大程度地影响性能"></a>多表进行JOIN时尽量先进行处理（筛选、分页等），缩小数据量，否则会很大程度地影响性能</h4><h4 id="建立索引时需要慎重。索引在提高相应的-select-效率的同时，也降低了-insert-update-delete-的效率，因为insert"><a href="#建立索引时需要慎重。索引在提高相应的-select-效率的同时，也降低了-insert-update-delete-的效率，因为insert" class="headerlink" title="建立索引时需要慎重。索引在提高相应的 select 效率的同时，也降低了 insert / update / delete 的效率，因为insert"></a>建立索引时需要慎重。索引在提高相应的 select 效率的同时，也降低了 insert / update / delete 的效率，因为insert</h4><h4 id="尽可能使用数值型字段，字符型字段会降低查询和连接的性能，并增加存储开销，因为引擎在处理查询和连接时会逐字符比较，而数值仅需比较一次"><a href="#尽可能使用数值型字段，字符型字段会降低查询和连接的性能，并增加存储开销，因为引擎在处理查询和连接时会逐字符比较，而数值仅需比较一次" class="headerlink" title="尽可能使用数值型字段，字符型字段会降低查询和连接的性能，并增加存储开销，因为引擎在处理查询和连接时会逐字符比较，而数值仅需比较一次"></a>尽可能使用数值型字段，字符型字段会降低查询和连接的性能，并增加存储开销，因为引擎在处理查询和连接时会逐字符比较，而数值仅需比较一次</h4><h4 id="尽可能使用-varchar-nvarchar-代替-char-nchar-，变长字段可节省存储空间且在查询时效率相对更高"><a href="#尽可能使用-varchar-nvarchar-代替-char-nchar-，变长字段可节省存储空间且在查询时效率相对更高" class="headerlink" title="尽可能使用 varchar / nvarchar 代替 char / nchar ，变长字段可节省存储空间且在查询时效率相对更高"></a>尽可能使用 varchar / nvarchar 代替 char / nchar ，变长字段可节省存储空间且在查询时效率相对更高</h4><h4 id="不使用-select-from-t-用具体的字段代替-‘‘"><a href="#不使用-select-from-t-用具体的字段代替-‘‘" class="headerlink" title="不使用 select  from t ,用具体的字段代替 ‘‘"></a>不使用 select <em> from t ,用具体的字段代替 ‘</em>‘</h4><h4 id="临时表-vs-表变量"><a href="#临时表-vs-表变量" class="headerlink" title="临时表 vs. 表变量"></a>临时表 vs. 表变量</h4><ul>
+<li>比较：<ul>
+<li>存储位置 ： 临时表存储在硬盘中，表变量存储在内存中，当数据量超出后，同样会占用硬盘空间，但此时内存基本耗尽，降低IO效率</li>
+<li>索引 ： 表变量不支持索引和统计数据，但可以有主键；临时表可以支持索引和统计数据</li>
+</ul>
+</li>
+<li>建议：  <ul>
+<li>对较小的临时计算用数据集考虑使用表变量</li>
+<li>数据集较大，在代码中用于临时计算，且仅用来做简单的全数据集扫描不考虑优化，比如没有/很少分组的聚合（COUNT/SUM/MAX）等，可以考虑使用表变量</li>
+<li>应用环境内存压力如果较大，尽量使用临时表</li>
+<li>大数据集应使用临时表，必要时创建索引</li>
+</ul>
+</li>
+</ul>
+<h4 id="尽量避免使用游标，因为游标的效率较差，如果游标操作的数据超过1万行，那么就应该考虑改写"><a href="#尽量避免使用游标，因为游标的效率较差，如果游标操作的数据超过1万行，那么就应该考虑改写" class="headerlink" title="尽量避免使用游标，因为游标的效率较差，如果游标操作的数据超过1万行，那么就应该考虑改写"></a>尽量避免使用游标，因为游标的效率较差，如果游标操作的数据超过1万行，那么就应该考虑改写</h4><h4 id="尽量避免大事务操作，提高系统并发能力"><a href="#尽量避免大事务操作，提高系统并发能力" class="headerlink" title="尽量避免大事务操作，提高系统并发能力"></a>尽量避免大事务操作，提高系统并发能力</h4>]]></content>
+      <tags>
+        <tag>随笔</tag>
+        <tag>sql</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>SQL语句笔记</title>
+    <url>/blog/2019/07/06/sql/</url>
+    <content><![CDATA[<h1 id="SQL语句"><a href="#SQL语句" class="headerlink" title="SQL语句"></a>SQL语句</h1><h2 id="获取连续的日期-时间"><a href="#获取连续的日期-时间" class="headerlink" title="获取连续的日期/时间"></a>获取连续的日期/时间</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">declare</span> @<span class="keyword">Start</span> datetime;</span><br><span class="line"><span class="keyword">declare</span> @<span class="keyword">End</span> datetime;</span><br><span class="line"><span class="keyword">select</span>  [<span class="built_in">Date</span>] =<span class="keyword">CONVERT</span>(<span class="built_in">char</span>(<span class="number">4</span>), <span class="keyword">DATEADD</span>(<span class="keyword">YEAR</span>, [<span class="built_in">number</span>], @<span class="keyword">Start</span>), <span class="number">121</span>)</span><br><span class="line"><span class="keyword">from</span>    master..spt_values</span><br><span class="line"><span class="keyword">where</span>   <span class="keyword">type</span> = <span class="string">'p'</span> <span class="keyword">and</span> [<span class="built_in">number</span>] &lt; <span class="keyword">DATEDIFF</span>(<span class="keyword">YEAR</span>,@<span class="keyword">Start</span>,@<span class="keyword">End</span>) + <span class="number">1</span></span><br><span class="line"><span class="keyword">group</span> <span class="keyword">by</span> <span class="keyword">CONVERT</span>(<span class="built_in">char</span>(<span class="number">4</span>), <span class="keyword">DATEADD</span>(<span class="keyword">YEAR</span>, [<span class="built_in">number</span>], @<span class="keyword">Start</span>), <span class="number">121</span>)</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">--获取连续的整数值</span></span><br><span class="line"><span class="keyword">select</span> top <span class="number">10</span> [<span class="built_in">number</span>]</span><br><span class="line"><span class="keyword">from</span> master..spt_values</span><br><span class="line"><span class="keyword">where</span> <span class="keyword">type</span>=<span class="string">'p'</span></span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> [<span class="built_in">number</span>] <span class="keyword">asc</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注：最多2048行记录</p>
+</blockquote>
+<h2 id="向自增列插入指定数值"><a href="#向自增列插入指定数值" class="headerlink" title="向自增列插入指定数值"></a>向自增列插入指定数值</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="comment">--表t 字段： [ID]:自增主键 [Name]</span></span><br><span class="line"><span class="keyword">SET</span> IDENTITY_INSERT [dbo].[t] <span class="keyword">ON</span></span><br><span class="line"><span class="keyword">insert</span> <span class="keyword">into</span> [dbo].[t] ([<span class="keyword">Id</span>],[<span class="keyword">Name</span>]) <span class="keyword">values</span>(<span class="number">1</span>,<span class="string">'1'</span>)</span><br><span class="line"><span class="keyword">SET</span> IDENTITY_INSERT [dbo].[t] <span class="keyword">OFF</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注：<br>1.请及时使用<code>SET IDENTITY_INSERT [dbo].[t] OFF</code>关闭自增列的自定义数值插入<br>2.每一次连接会话中的任一时刻，只能对一个表设置IDENTITY_INSERT ON，且设置只对当前会话有效<br>3.插入时一定要列出该标识列</p>
+</blockquote>
+<a id="more"></a>
+<h2 id="生成数据字典"><a href="#生成数据字典" class="headerlink" title="生成数据字典"></a>生成数据字典</h2><figure class="highlight sql"><table><tr><td class="code"><pre><span class="line"><span class="keyword">use</span> your-<span class="keyword">database</span>  <span class="comment">--指明数据库  </span></span><br><span class="line"><span class="keyword">go</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">SELECT</span>  </span><br><span class="line">    表名=<span class="keyword">case</span> <span class="keyword">when</span> a.colorder=<span class="number">1</span> <span class="keyword">then</span> d.name <span class="keyword">else</span> <span class="string">''</span> <span class="keyword">end</span>,  </span><br><span class="line">    表说明=<span class="keyword">case</span> <span class="keyword">when</span> a.colorder=<span class="number">1</span> <span class="keyword">then</span> <span class="keyword">isnull</span>(f.value,<span class="string">''</span>) <span class="keyword">else</span> <span class="string">''</span> <span class="keyword">end</span>,  </span><br><span class="line">    字段序号=a.colorder,  </span><br><span class="line">    字段名=a.name,  </span><br><span class="line">    标识=<span class="keyword">case</span> <span class="keyword">when</span> COLUMNPROPERTY(a.id,a.name,<span class="string">'IsIdentity'</span>)=<span class="number">1</span> <span class="keyword">then</span> <span class="string">'√'</span><span class="keyword">else</span> <span class="string">''</span> <span class="keyword">end</span>,  </span><br><span class="line">    主键=<span class="keyword">case</span> <span class="keyword">when</span> <span class="keyword">exists</span>(<span class="keyword">SELECT</span> <span class="number">1</span> <span class="keyword">FROM</span> sysobjects <span class="keyword">where</span> xtype=<span class="string">'PK'</span> <span class="keyword">and</span> <span class="keyword">name</span> <span class="keyword">in</span> (<span class="keyword">SELECT</span> <span class="keyword">name</span> <span class="keyword">FROM</span> sysindexes <span class="keyword">WHERE</span> indid <span class="keyword">in</span>(<span class="keyword">SELECT</span> indid <span class="keyword">FROM</span> sysindexkeys <span class="keyword">WHERE</span> <span class="keyword">id</span> = a.id <span class="keyword">AND</span> colid=a.colid</span><br><span class="line">   ))) <span class="keyword">then</span> <span class="string">'√'</span> <span class="keyword">else</span> <span class="string">''</span> <span class="keyword">end</span>,  </span><br><span class="line">    类型=b.name,  </span><br><span class="line">    长度=COLUMNPROPERTY(a.id,a.name,<span class="string">'PRECISION'</span>),  </span><br><span class="line">    占用字节数=a.length,  </span><br><span class="line">    小数位数=<span class="keyword">isnull</span>(COLUMNPROPERTY(a.id,a.name,<span class="string">'Scale'</span>),<span class="number">0</span>),  </span><br><span class="line">    允许空=<span class="keyword">case</span> <span class="keyword">when</span> a.isnullable=<span class="number">1</span> <span class="keyword">then</span> <span class="string">'√'</span><span class="keyword">else</span> <span class="string">''</span> <span class="keyword">end</span>,  </span><br><span class="line">    默认值=<span class="keyword">isnull</span>(e.text,<span class="string">''</span>),  </span><br><span class="line">    字段说明=<span class="keyword">isnull</span>(g.[<span class="keyword">value</span>],<span class="string">''</span>)  </span><br><span class="line"><span class="keyword">FROM</span> syscolumns a  </span><br><span class="line">    <span class="keyword">left</span> <span class="keyword">join</span> systypes b <span class="keyword">on</span> a.xtype=b.xusertype  </span><br><span class="line">    <span class="keyword">inner</span> <span class="keyword">join</span> sysobjects d <span class="keyword">on</span> a.id=d.id <span class="keyword">and</span> d.xtype=<span class="string">'U'</span> <span class="keyword">and</span> d.name&lt;&gt;<span class="string">'dtproperties'</span>  </span><br><span class="line">    <span class="keyword">left</span> <span class="keyword">join</span> syscomments e <span class="keyword">on</span> a.cdefault=e.id  </span><br><span class="line">    <span class="keyword">left</span> <span class="keyword">join</span> sys.extended_properties g <span class="keyword">on</span> a.id=g.major_id <span class="keyword">and</span> a.colid=g.minor_id  </span><br><span class="line">    <span class="keyword">left</span> <span class="keyword">join</span> sys.extended_properties f <span class="keyword">on</span> d.id=f.major_id <span class="keyword">and</span> f.minor_id =<span class="number">0</span>  </span><br><span class="line"><span class="comment">--where d.name='要查询的表' --仅生成指定表的数据字典   </span></span><br><span class="line"><span class="keyword">order</span> <span class="keyword">by</span> d.name,a.id,a.colorder</span><br></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>随笔</tag>
+        <tag>SQL</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>nginx配置</title>
+    <url>/blog/2019/07/06/nginx%E9%85%8D%E7%BD%AE/</url>
+    <content><![CDATA[<h2 id="设置请求Body的大小"><a href="#设置请求Body的大小" class="headerlink" title="设置请求Body的大小"></a>设置请求Body的大小</h2><h5 id="nginx-默认Body大小为-1M"><a href="#nginx-默认Body大小为-1M" class="headerlink" title="nginx 默认Body大小为 1M"></a>nginx 默认Body大小为 1M</h5><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">client_max_body_size 20M;</span><br></pre></td></tr></table></figure>
+<p>可以选择在http{ }/server{ }/location{ }中设置<br>三者到区别是：http{} 中控制着所有nginx收到的请求。而报文大小限制设置在server｛｝中，则控制该server收到的请求报文大小，同理，如果配置在location中，则报文大小限制，只对匹配了location 路由规则的请求生效。</p>
+<blockquote>
+<p><a href="https://blog.csdn.net/li396864285/article/details/53522828" target="_blank" rel="noopener">&gt;参考此文&lt;</a></p>
+</blockquote>
+]]></content>
+      <tags>
+        <tag>随笔</tag>
+        <tag>nginx</tag>
+        <tag>linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>.NET Core API笔记</title>
+    <url>/blog/2019/07/06/DotNET%20Core%20API/</url>
+    <content><![CDATA[<h3 id="自定义路由"><a href="#自定义路由" class="headerlink" title="自定义路由"></a>自定义路由</h3><pre><code>Startup.cs:
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">public void Configure(IApplicationBuilder app, IHostingEnvironment env)</span><br><span class="line">&#123;</span><br><span class="line">    ...</span><br><span class="line"></span><br><span class="line">    app.UseMvc(routes =&gt;</span><br><span class="line">    &#123;</span><br><span class="line">        routes.MapRoute(&quot;default&quot;, &quot;&#123;controller=Home&#125;/&#123;action=Index&#125;/&#123;id?&#125;&quot;);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre>]]></content>
+      <tags>
+        <tag>随笔</tag>
+        <tag>.NET Core</tag>
+        <tag>API</tag>
+        <tag>服务端</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>.NET笔记</title>
+    <url>/blog/2018/04/28/DotNet/</url>
+    <content><![CDATA[<h1 id="特殊情况解决方案"><a href="#特殊情况解决方案" class="headerlink" title="特殊情况解决方案"></a>特殊情况解决方案</h1><h2 id="POST请求中Request数据过大，JSON反序列化时字符串的长度超过了为maxJsonLength属性设置的值"><a href="#POST请求中Request数据过大，JSON反序列化时字符串的长度超过了为maxJsonLength属性设置的值" class="headerlink" title="POST请求中Request数据过大，JSON反序列化时字符串的长度超过了为maxJsonLength属性设置的值"></a>POST请求中Request数据过大，JSON反序列化时字符串的长度超过了为maxJsonLength属性设置的值</h2><h3 id="解决方案："><a href="#解决方案：" class="headerlink" title="解决方案："></a>解决方案：</h3><figure class="highlight xml"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--web.config--&gt;</span></span><br><span class="line"><span class="comment">&lt;!--设置最大请求长度--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">httpRuntime</span> <span class="attr">maxRequestLength</span>=<span class="string">"1048576"</span> <span class="attr">executionTimeout</span>=<span class="string">"1200"</span> <span class="attr">targetFramework</span>=<span class="string">"4.5"</span> /&gt;</span></span><br><span class="line">```  </span><br><span class="line">```C#</span><br><span class="line">//反序列化</span><br><span class="line">public static T DeserializeRequest<span class="tag">&lt;<span class="name">T</span>&gt;</span>()</span><br><span class="line">&#123;</span><br><span class="line">    Stream req = System.Web.HttpContext.Current.Request.InputStream;</span><br><span class="line">    req.Seek(0, System.IO.SeekOrigin.Begin);</span><br><span class="line">    string json = new StreamReader(req).ReadToEnd();</span><br><span class="line">    return JsonConvert.DeserializeObject<span class="tag">&lt;<span class="name">T</span>&gt;</span>(json);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/***************使用示例***************/</span><br><span class="line">public class MyModel&#123;</span><br><span class="line">    public string imgBase64&#123;get;set;&#125;</span><br><span class="line">    public MyModel()&#123; &#125;</span><br><span class="line">&#125;</span><br><span class="line">public void UploadImg()&#123;</span><br><span class="line">    MyModel myModel = DeserializeRequest<span class="tag">&lt;<span class="name">MyModel</span>&gt;</span>();</span><br><span class="line">    /*</span><br><span class="line">     * MyDeal(myModel);</span><br><span class="line">     */</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<a id="more"></a>]]></content>
+      <tags>
+        <tag>随笔</tag>
+        <tag>.NET</tag>
+        <tag>MVC</tag>
+        <tag>JSON</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Golang笔记</title>
+    <url>/blog/2017/12/09/go/</url>
+    <content><![CDATA[<blockquote>
+<h2 id="在Linux服务器上部署GO项目"><a href="#在Linux服务器上部署GO项目" class="headerlink" title="在Linux服务器上部署GO项目"></a>在Linux服务器上部署GO项目</h2></blockquote>
+<h3 id="上传源码-test-go-至linux服务器上的-GOPATH-src-test-新建文件夹-目录中"><a href="#上传源码-test-go-至linux服务器上的-GOPATH-src-test-新建文件夹-目录中" class="headerlink" title="上传源码(test.go)至linux服务器上的%GOPATH%/src/test(新建文件夹)目录中"></a>上传源码(test.go)至linux服务器上的%GOPATH%/src/test(新建文件夹)目录中</h3><h3 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">go build <span class="built_in">test</span></span><br></pre></td></tr></table></figure>
+<h3 id="后台运行GO项目"><a href="#后台运行GO项目" class="headerlink" title="后台运行GO项目"></a>后台运行GO项目</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">nohup ./<span class="built_in">test</span> &amp; &gt;test.log &amp;</span><br><span class="line">或直接</span><br><span class="line">nohup ./<span class="built_in">test</span> &amp;</span><br></pre></td></tr></table></figure>
+<a id="more"></a>]]></content>
+      <tags>
+        <tag>随笔</tag>
+        <tag>Go</tag>
+        <tag>Linux</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Vue笔记</title>
+    <url>/blog/2017/11/20/vue/</url>
+    <content><![CDATA[<h2 id="监听事件"><a href="#监听事件" class="headerlink" title="监听事件"></a><a href="https://cn.vuejs.org/v2/guide/events.html#监听事件" target="_blank" rel="noopener">监听事件</a></h2><pre><code><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">v-on:click</span>=<span class="string">"doTheThing"</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--简写：--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">a</span> @<span class="attr">click</span>=<span class="string">"doTheThing"</span>&gt;</span><span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--修饰符 (可只使用修饰符 e.g.,&lt;a v-on:click.stop&gt;&lt;/a&gt;) </span></span><br><span class="line"><span class="comment">.stop [仅限原生DOM事件] 阻止传播 </span></span><br><span class="line"><span class="comment">.prevent [仅限原生DOM事件] 不重载页面  </span></span><br><span class="line"><span class="comment">.capture [仅限原生DOM事件] 捕获  即内部元素触发的事件先在此处处理，然后才交由内部元素自身进行处理</span></span><br><span class="line"><span class="comment">.self [仅限原生DOM事件] 只当在 event.target 是当前元素自身时触发处理函数  即事件不是从内部元素触发的  </span></span><br><span class="line"><span class="comment">.once 点击事件将只会触发一次--&gt;</span></span><br></pre></td></tr></table></figure>
+</code></pre><h3 id="监听组件的原生事件"><a href="#监听组件的原生事件" class="headerlink" title="监听组件的原生事件"></a><a href="https://cn.vuejs.org/v2/guide/components.html#给组件绑定原生事件" target="_blank" rel="noopener">监听组件的原生事件</a></h3><pre><code><figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="comment">&lt;!--使用.native修饰--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">my-component</span> <span class="attr">v-on:click.native</span>=<span class="string">"doTheThing"</span>&gt;</span><span class="tag">&lt;/<span class="name">my-component</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--e.g.--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">router-link</span> <span class="attr">to</span>=<span class="string">"/"</span> <span class="attr">v-on:click.native</span>=<span class="string">"doTheThing"</span>&gt;</span>X<span class="tag">&lt;/<span class="name">router-link</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</code></pre><a id="more"></a>
+<h2 id="方法放在DOM更新之后执行"><a href="#方法放在DOM更新之后执行" class="headerlink" title="方法放在DOM更新之后执行"></a><a href="https://cn.vuejs.org/v2/api/#vm-nextTick" target="_blank" rel="noopener">方法放在DOM更新之后执行</a></h2><pre><code><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="keyword">new</span> Vue(&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    methods: &#123;</span><br><span class="line">        <span class="comment">// ...</span></span><br><span class="line">        example: <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">            <span class="comment">// 修改数据</span></span><br><span class="line">            <span class="keyword">this</span>.message = <span class="string">'changed'</span></span><br><span class="line">            <span class="comment">// DOM 还没有更新</span></span><br><span class="line">            <span class="keyword">this</span>.$nextTick(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">                <span class="comment">// DOM 现在更新了</span></span><br><span class="line">                <span class="comment">// `this` 绑定到当前实例</span></span><br><span class="line">                <span class="keyword">this</span>.doSomethingElse()</span><br><span class="line">            &#125;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">//e.g.</span></span><br><span class="line">methods:&#123;</span><br><span class="line">    <span class="comment">//修改Canvas的宽高</span></span><br><span class="line">    RefreshCanvas:<span class="function"><span class="keyword">function</span>(<span class="params">_width,_height</span>)</span>&#123;</span><br><span class="line">        <span class="comment">//修改Canvas宽度高度</span></span><br><span class="line">        <span class="keyword">this</span>.canvasWidth=_width;</span><br><span class="line">        <span class="keyword">this</span>.canvasHeight=_height;</span><br><span class="line">        <span class="comment">//数据已改变 DOM尚未更新</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>.$nextTick(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</span><br><span class="line">            <span class="comment">//DOM已更新</span></span><br><span class="line">            <span class="keyword">this</span>.$refs.eleImgCanvas.getContext(<span class="string">"2d"</span>).clearRect(<span class="number">0</span>, <span class="number">0</span>, <span class="keyword">this</span>.canvasWidth,<span class="keyword">this</span>.canvasHeight);</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre><h2 id="使用深度选择器来修改第三方组件的样式"><a href="#使用深度选择器来修改第三方组件的样式" class="headerlink" title="使用深度选择器来修改第三方组件的样式"></a>使用深度选择器来修改第三方组件的样式</h2><figure class="highlight css"><table><tr><td class="code"><pre><span class="line"><span class="selector-class">.my-class</span> &gt;&gt;&gt; <span class="selector-class">.third-party-class</span>&#123;</span><br><span class="line">    <span class="attribute">margin</span>:<span class="number">10px</span>;</span><br><span class="line">&#125;</span><br><span class="line">.my-class /deep/ .third-party-class&#123;</span><br><span class="line">    <span class="selector-tag">margin</span><span class="selector-pseudo">:10px</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/*编译后：*/</span></span><br><span class="line"><span class="selector-class">.my-class</span><span class="selector-attr">[data-v-54c1ae8e]</span> <span class="selector-class">.third-party-class</span>&#123;</span><br><span class="line">    <span class="attribute">margin</span>:<span class="number">10px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+      <tags>
+        <tag>随笔</tag>
+        <tag>Vue</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>React - 使用create-react-app快速创建和部署</title>
+    <url>/blog/2017/09/18/React-1/</url>
+    <content><![CDATA[<blockquote>
+<p>更多信息请查阅<code>create-react-app</code>生成的模板项目中的<code>README.md</code></p>
+</blockquote>
+<h2 id="创建React项目"><a href="#创建React项目" class="headerlink" title="创建React项目"></a>创建React项目</h2><h3 id="Step-1"><a href="#Step-1" class="headerlink" title="Step 1:"></a>Step 1:</h3><p><code>npm install -g create-react-app</code>全局安装create-react-app</p>
+<h3 id="Step-2"><a href="#Step-2" class="headerlink" title="Step 2:"></a>Step 2:</h3><p><code>create-react-app my-app</code>快速生成React模板项目</p>
+<h3 id="Step-3"><a href="#Step-3" class="headerlink" title="Step 3:"></a>Step 3:</h3><p>进入目录并预览项目<br><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line"><span class="built_in">cd</span> my-app</span><br><span class="line">npm start</span><br></pre></td></tr></table></figure></p>
+<h3 id="Step-4"><a href="#Step-4" class="headerlink" title="Step 4:"></a>Step 4:</h3><p>此时访问<code>http://localhost:300</code>即可预览项目  </p>
+<h2 id="React部署-Gtithub-Pages"><a href="#React部署-Gtithub-Pages" class="headerlink" title="React部署 - Gtithub Pages"></a>React部署 - Gtithub Pages</h2><a id="more"></a>
+<h3 id="Step-1-1"><a href="#Step-1-1" class="headerlink" title="Step 1:"></a>Step 1:</h3><p>在<code>package.json</code>中添加<code>homepage</code>配置<br><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="string">"homepage"</span>:<span class="string">"https://myusername.github.io/my-app"</span></span><br><span class="line"><span class="comment">//如果为Github Pages添加自定义域名则为</span></span><br><span class="line"><span class="string">"homepage"</span>:<span class="string">"http(s)://mydomian/"</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="Step-2-1"><a href="#Step-2-1" class="headerlink" title="Step 2:"></a>Step 2:</h3><p>安装<code>gh-pages</code>:<br><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">npm install --save gh-pages</span><br><span class="line">yarn add gh-pages</span><br></pre></td></tr></table></figure></p>
+<h3 id="Step-3-1"><a href="#Step-3-1" class="headerlink" title="Step 3:"></a>Step 3:</h3><p>在<code>package.json</code>的<code>scripts</code>中添加<code>deploy</code>,即下面两行</p>
+<figure class="highlight diff"><table><tr><td class="code"><pre><span class="line">  "scripts": &#123;</span><br><span class="line"><span class="addition">+   "predeploy": "npm run build",</span></span><br><span class="line"><span class="addition">+   "deploy": "gh-pages -d build",</span></span><br><span class="line">    "start": "react-scripts start",</span><br><span class="line">    "build": "react-scripts build",</span><br></pre></td></tr></table></figure>
+<h3 id="Step-4-1"><a href="#Step-4-1" class="headerlink" title="Step 4:"></a>Step 4:</h3><p>使用 <code>npm run deploy</code>部署至<code>github</code><br><figure class="highlight sh"><table><tr><td class="code"><pre><span class="line">npm run deploy</span><br></pre></td></tr></table></figure></p>
+<h3 id="Step-5"><a href="#Step-5" class="headerlink" title="Step 5:"></a>Step 5:</h3><p>确保项目的 <code>gh-pages</code>分支中Github Pages设置无误</p>
+<h3 id="Step-6"><a href="#Step-6" class="headerlink" title="Step 6:"></a>Step 6:</h3><p>自定义域名的<code>CNAME</code>文件<br>在<code>public/</code>目录下添加<code>CNAME</code>文件，部署时自动上传至<code>gh-pages</code>分支</p>
+]]></content>
+      <tags>
+        <tag>React</tag>
+        <tag>GitHub Pages</tag>
+      </tags>
+  </entry>
+</search>
